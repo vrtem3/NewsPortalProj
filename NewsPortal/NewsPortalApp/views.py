@@ -30,5 +30,16 @@ class PostDetail(DetailView):
         context = super().get_context_data(**kwargs)
         context['objects'] = Post.objects.select_related().all()
         return context
-    
+
+
+class CommentList(ListView):
+    model = Comment
+    template_name = 'post.html'
+    context_object_name = 'comments'
+
+
+class CommentDetail(DetailView):
+    model = Comment
+    template_name = 'post.html'
+    context_object_name = 'comment'
 

@@ -79,3 +79,10 @@ class Comment(models.Model):
     def dislike(self):
         self.rating -= 1
         self.save()
+
+    def __str__(self):
+        comment = (
+            f'{self.text}'
+            f'{self.date_create}'
+        )
+        return comment

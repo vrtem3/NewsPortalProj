@@ -1,16 +1,24 @@
 <!--  наследуемся от шаблона default.html, который мы создавали ещё во времена flatpages -->
 {% extends 'flatpages/default.html' %}
-<title>{{ post.title }}</title>
+<title>{{ post.title }}</title> <!-- Как в заголовок страницы вывести post.title?-->
 
 <!-- Название у нас будет products -->
 {% block title %}
-Post
+Публикация
 {% endblock title %}
 
 <!-- В контенте на странице мы выводим сам товар, ID которого было передано в адрес -->
 {% block content %}
-<h1>{{ post.title }}</h1>
-
+<h3>{{ post.title }}</h3>
+<h5>Дата публикации: {{ post.date_create|date:'d-m-Y h:m' }}</h5>
+<hr>
 {{ post.text }}
-Автор: {{ post.author_connect.author_user.name }}
+<br><b>Автор: {{ post.author_connect.author_user.name }}</b>
+<hr>
+<b>Комментарии к посту:</b>
+{% for comment in comments %}
+    {{ comment.text }}
+    <br><b>Дата публикации: {{ comment.date_create|date:'d.m.y' }}</b>
+    <hr>
+{% endfor %}
 {% endblock content %}
