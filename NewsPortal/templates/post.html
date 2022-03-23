@@ -1,0 +1,16 @@
+<!--  наследуемся от шаблона default.html, который мы создавали ещё во времена flatpages -->
+{% extends 'flatpages/default.html' %}
+<title>{{ post.title }}</title>
+
+<!-- Название у нас будет products -->
+{% block title %}
+Post
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим сам товар, ID которого было передано в адрес -->
+{% block content %}
+<h1>{{ post.title }}</h1>
+
+{{ post.text }}
+Автор: {{ post.author_connect.author_user.name }}
+{% endblock content %}
