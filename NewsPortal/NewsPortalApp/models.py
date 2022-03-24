@@ -52,8 +52,8 @@ class Post(models.Model):
 
     date_create = models.DateTimeField(auto_now_add=True)
     post_category = models.ManyToManyField(Category, through='PostCategory')
-    title = models.CharField(max_length=128)
-    text = models.TextField()
+    title = models.CharField(max_length=128, verbose_name='Заголовок')
+    text = models.TextField(verbose_name='Текст')
     rating = models.SmallIntegerField(default=0)
 
     def like(self):
