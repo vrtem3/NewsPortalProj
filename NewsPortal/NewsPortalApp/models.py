@@ -1,3 +1,4 @@
+from tabnanny import verbose
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Sum
@@ -18,10 +19,24 @@ class Author(models.Model):
 
         self.rating_author = pRat * 3 + cRat
         self.save()
+    
+    def ___str___(self):
+        return self.author_user
+
+    class Meta:
+        verbose_name = 'Автор'
+        verbose_name_plural = 'Авторы'
 
 
 class Category(models.Model):
     category_name = models.CharField(max_length=64, unique=True)
+
+    def ___str___(self):
+        return self.category_name
+
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
 
 
 class Post(models.Model):
@@ -53,11 +68,11 @@ class Post(models.Model):
         return self.text[0:123] + '...'
 
     def __str__(self):
-        post = (
-            f'{self.title}'
-            f'{self.text}'
-        )
-        return post
+        return self.title
+
+    class Meta:
+        verbose_name = 'Публикация'
+        verbose_name_plural = 'Публикации'
 
 
 class PostCategory(models.Model):
@@ -81,8 +96,9 @@ class Comment(models.Model):
         self.save()
 
     def __str__(self):
-        comment = (
-            f'{self.text}'
-            f'{self.date_create}'
-        )
-        return comment
+        return self.text
+
+    class Meta:
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
+
