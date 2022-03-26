@@ -21,7 +21,7 @@ class Author(models.Model):
         self.save()
     
     def ___str___(self):
-        return self.author_user
+        return f'{self.author_user}'
 
     class Meta:
         verbose_name = 'Автор'
@@ -32,7 +32,7 @@ class Category(models.Model):
     category_name = models.CharField(max_length=64, unique=True)
 
     def ___str___(self):
-        return self.category_name
+        return f'{self.category_name}'
 
     class Meta:
         verbose_name = 'Категория'
@@ -50,7 +50,7 @@ class Post(models.Model):
     )
     category_type = models.CharField(max_length=2, choices=CATEGORY_CHOISES, default=ARTICLE)
 
-    date_create = models.DateTimeField(auto_now_add=True)
+    date_create = models.DateTimeField(auto_now_add=True, verbose_name='Дата публикации')
     post_category = models.ManyToManyField(Category, through='PostCategory')
     title = models.CharField(max_length=128, verbose_name='Заголовок')
     text = models.TextField(verbose_name='Текст')
@@ -68,7 +68,7 @@ class Post(models.Model):
         return self.text[0:123] + '...'
 
     def __str__(self):
-        return self.title
+        return f'{self.title}'
 
     class Meta:
         verbose_name = 'Публикация'
@@ -96,7 +96,7 @@ class Comment(models.Model):
         self.save()
 
     def __str__(self):
-        return self.text
+        return f'{self.text}'
 
     class Meta:
         verbose_name = 'Комментарий'
