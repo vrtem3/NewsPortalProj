@@ -1,5 +1,5 @@
-from django_filters import FilterSet  # импортируем filterset, чем-то напоминающий знакомые дженерики
-from .models import Post
+from django_filters import FilterSet
+from .models import *
  
  
 # создаём фильтр
@@ -8,7 +8,9 @@ class PostFilter(FilterSet):
     class Meta:
         model = Post
         fields = {
-            'title': ['icontains'],  # мы хотим чтобы нам выводило имя хотя бы отдалённо похожее на то что запросил пользователь
-            'date_create': ['gte'],  # количество товаров должно быть больше или равно тому, что указал пользователь
+            'title': ['icontains'],
+            'date_create': ['gte'],
+#            'author_connect__author_user': ['contains']
+
         }
 

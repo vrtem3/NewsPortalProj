@@ -15,9 +15,9 @@
 <h5>Дата публикации: {{ post.date_create|date:'d-m-Y h:m' }}</h5>
 <hr>
 {{ post.text|censor }}
-<br><b>Автор: {{ post.author_connect.author_user.name }}</b>
-<hr>
-<b>Комментарии к посту:</b>
+<br><b>Автор: {{ author.user.username }}</b>
+
+<hr><b>Комментарии к посту:</b>
 {% for comment in comments %}
     {{ comment.text }}
     <br><b>Дата публикации: {{ comment.date_create|date:'d.m.y' }}</b>

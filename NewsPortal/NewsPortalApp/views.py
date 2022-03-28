@@ -2,7 +2,7 @@ from datetime import datetime
 from django.views.generic import ListView, DetailView
 from .models import *
 from django.core.paginator import Paginator  # импортируем класс, позволяющий удобно осуществлять постраничный вывод
-from .filters import *  # импортируем недавно написанный фильтр
+from .filters import *
 
 
 class PostList(ListView):
@@ -13,6 +13,7 @@ class PostList(ListView):
     # чтобы обратиться к самому списку объектов через HTML-шаблон
     queryset = Post.objects.order_by('-id')
     paginate_by = 10
+    comments = Comment.objects.all()
 
         # метод get_context_data нужен нам для того, чтобы мы могли передать переменные в шаблон. 
         # В возвращаемом словаре context будут храниться все переменные. Ключи этого словаря и есть переменные, к которым мы сможем потом обратиться через шаблон
@@ -48,12 +49,24 @@ class CommentDetail(DetailView):
 class PostSearch(ListView):
     model = Post
     template_name = 'search.html'
+    context_object_name = 'posts_search'
     queryset = Post.objects.order_by('-id')
     paginate_by = 5
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['time_now'] = datetime.utcnow()
-        context['filter'] = PostFilter(self.request.GET, queryset=self.get_queryset())
-        return context
+#    def get_context_data(self, **kwargs):
+#        context = super().get_context_data(**kwargs)
+#        context['time_now'] = datetime.utcnow()
+#        context['filter'] = PostFilter(self.request.GET, queryset=self.get_queryset())
+#        return context
+    
+    def get_filter(self):
+        return PostFilter(self.request.GET, queryset=super().get_queryset())
 
+    def get_queryset(self):
+        return self.get_filter().qs
+
+    def get_context_data(self, *args, **kwargs):
+        return {
+            **super().get_context_data(*args, **kwargs),
+            'filter': self.get_filter(),
+        }

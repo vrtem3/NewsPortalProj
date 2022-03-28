@@ -81,7 +81,7 @@ class PostCategory(models.Model):
 
 
 class Comment(models.Model):
-    comment_post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    comment_post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     comment_user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
     date_create = models.DateTimeField(auto_now_add=True)
@@ -95,11 +95,12 @@ class Comment(models.Model):
         self.rating -= 1
         self.save()
 
-    def __str__(self):
-        return f'{self.text}'
-
     class Meta:
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
+        ordering = ['date_create']
+
+    def __str__(self):
+        return 'Comment {} by {}'.format(self.text, self.comment_user)
 
 
