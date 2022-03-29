@@ -3,6 +3,7 @@ from django.views.generic import ListView, DetailView
 from .models import *
 from django.core.paginator import Paginator  # импортируем класс, позволяющий удобно осуществлять постраничный вывод
 from .filters import *
+from .forms import PostForm  # импортируем нашу форму
 
 
 class PostList(ListView):
@@ -12,15 +13,23 @@ class PostList(ListView):
     context_object_name = 'posts'  # это имя списка, в котором будут лежать все объекты, его надо указать,
     # чтобы обратиться к самому списку объектов через HTML-шаблон
     queryset = Post.objects.order_by('-id')
-    paginate_by = 10
+    paginate_by = 5
     comments = Comment.objects.all()
+    form_class = PostForm  # добавляем форм класс, чтобы получать доступ к форме через метод POST
 
         # метод get_context_data нужен нам для того, чтобы мы могли передать переменные в шаблон. 
         # В возвращаемом словаре context будут храниться все переменные. Ключи этого словаря и есть переменные, к которым мы сможем потом обратиться через шаблон
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['time_now'] = datetime.utcnow()  # добавим переменную текущей даты time_now
+        context['form'] = PostForm()
         return context
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)  # создаём новую форму, забиваем в неё данные из POST-запроса 
+        if form.is_valid(): # если пользователь ввёл всё правильно и нигде не ошибся, то сохраняем новый товар
+            form.save()
+        return super().get(request, *args, **kwargs)
 
 
 class PostDetail(DetailView):

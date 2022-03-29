@@ -21,7 +21,7 @@ class Author(models.Model):
         self.save()
     
     def ___str___(self):
-        return f'{self.author_user}'
+        return f'{self.author_user.username}'
 
     class Meta:
         verbose_name = 'Автор'
@@ -29,7 +29,7 @@ class Author(models.Model):
 
 
 class Category(models.Model):
-    category_name = models.CharField(max_length=64, unique=True)
+    category_name = models.CharField(max_length=64, unique=True, verbose_name='Категория')
 
     def ___str___(self):
         return f'{self.category_name}'

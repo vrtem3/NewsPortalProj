@@ -10,7 +10,5 @@ class PostFilter(FilterSet):
         fields = {
             'title': ['icontains'],
             'date_create': ['gte'],
-#            'author_connect__author_user': ['contains']
-
         }
 
